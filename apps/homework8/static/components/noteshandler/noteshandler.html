@@ -1,0 +1,129 @@
+<div>
+   <!-- <i></i> -->
+   <button class="button" @click="add_note">
+      <i class="fa fa-plus"></i>
+   </button>
+
+   <div class="columns is-mobile is-multiline note_container">
+      <div v-for="note in notes" class="column is-3 note" :class="pick_color(note.color)">
+         <div v-if="!note.edit">
+            <div class="level">
+               <div class="level-left">
+                  <p class="title is-3">{{note.title}}</p>
+               </div>
+
+
+
+               <div class="level-right">
+                  <i style="cursor: pointer;"v-if="note.starred"class="fa fa-star" @click="do_save(note._idx,'starred',false,false);"></i>
+                  <i style="cursor: pointer;"v-if="!note.starred"class="fa fa-star-o" @click="do_save(note._idx,'starred',true,false);"></i>
+               </div>
+
+            </div>
+            <div class="level">
+               <div class="level-left">
+                  <button class="button is-link level-item" @click="toggle_edit(true,note._idx);"><i class="fa fa-edit"></i></button>
+               </div>
+            </div>
+
+
+            <div class="note_content">{{note.content}}</div>
+         </div>
+
+         <div v-if="note.edit">
+            <div class="level">
+               <div class="level-left">
+                  <input class="title is-3" type="text" v-model="note.title">
+               </div>
+               <div class="level-right">
+                  <i style="cursor: pointer;"v-if="note.starred"class="fa fa-star" @click="do_save(note._idx,'starred',false,true);"></i>
+                  <i style="cursor: pointer;"v-if="!note.starred"class="fa fa-star-o" @click="do_save(note._idx,'starred',true,true);"></i>
+               </div>
+            </div>
+
+            <textarea class="textarea is-size-5" style="min-height:200px; margin:5px;" v-model="note.content" ></textarea>
+            <div class="level" style="margin-top:60px">
+               <div class="level-left">
+                  <div class="columns color_selector">
+                     <div v-for="(color,index) in color_class" class="column color_block" :class="pick_color(index)"
+                        @click="do_save(note._idx,'color',index,true)">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="level-right">
+                  <button class="button is-link level-item" @click="do_save(note._idx,'title',note.title,false);do_save(note._idx,'content',note.content,false);">
+                     <i class="fa fa-save"></i></button>
+                  <button class="button is-danger level-item" @click="do_delete(note._idx)" ><i class="fa fa-trash"></i></button>
+                  <button class="button is-danger level-item" @click="do_cancel(note._idx)" ><i class="fa fa-times"></i></button>
+               </div>
+            </div>
+
+
+         </div>
+      </div>
+   </div>
+
+   <button class="button is-primary" @click="toggle_instruction()" style="margin-top:20px">
+      <p>Instructions</p>
+   </button>
+   <div v-if="show_instr">
+      <div class="level">
+         <div class="level-left">
+            <i class="text is-size-5 level-item">Add Notes:  </i>
+            <button class="button level-item"style="margin-left:10px"><i class="fa fa-plus"></i></button>
+         </div>
+      </div>
+
+      <div class="level">
+         <div class="level-left">
+         <i class="text is-size-5 level-item">Add Notes:  </i>
+         <button class="button level-item"style="margin-left:10px"><i class="fa fa-plus"></i></button>
+         </div>
+      </div>
+
+
+      <div class="level">
+         <div class="level-left">
+            <i class="text is-size-5 level-item">Edit Notes:  </i>
+            <button class="button is-link level-item"style="margin-left:10px"><i class="fa fa-edit"></i></button>
+         </div>
+      </div>
+
+
+
+      <div class="level">
+         <div class="level-left">
+            <i class="text is-size-5">Save Notes:  </i>
+            <button class="button is-link"style="margin-left:10px"><i class="fa fa-save"></i></button>
+         </div>
+      </div>
+
+      <div class="level">
+         <div class="level-left">
+            <i class="text is-size-5">Delete Notes:  </i>
+            <button class="button is-danger"style="margin-left:10px"><i class="fa fa-trash"></i></button>
+         </div>
+      </div>
+
+      <div class="level">
+         <div class="level-left">
+            <i class="text is-size-5">Cancel Edit:  </i>
+            <button class="button is-danger"style="margin-left:10px"><i class="fa fa-times"></i></button>
+         </div>
+      </div>
+
+      <div class="level">
+         <div class="level-left">
+            <i class="text is-size-5 level-item">Note Colors: </i>
+            <div class="columns color_selector">
+               <div v-for="(color,index) in color_class" class="column color_block" :class="pick_color(index)">
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+
+   </div>
+</div>
